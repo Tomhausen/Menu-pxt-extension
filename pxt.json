@@ -1,5 +1,6 @@
 {
     "name": "arcade-mini-menu",
+    "version": "0.1.0",
     "description": "Add menus to your MakeCode Arcade game",
     "dependencies": {
         "device": "*"
@@ -43,13 +44,12 @@
         "branch": "v1.8.25",
         "tag": "v1.8.25",
         "commits": "https://github.com/microsoft/pxt-arcade/commits/1a86bab4a3629b30176ea84f7c52383983a05a46",
-        "target": "1.8.26",
+        "target": "2.0.3",
         "pxt": "7.4.27",
         "targetId": "arcade"
     },
     "supportedTargets": [
         "arcade"
     ],
-    "preferredEditor": "tsprj",
-    "version": "0.1.0"
+    "preferredEditor": "tsprj"
 }
