@@ -131,19 +131,67 @@ namespace miniMenu {
     //% weight=99
     //% help=github:arcade-mini-menu/docs/create-menu-from-array
     export function createMenuFromArray(
-        items: MenuItem[]
+        items: (string | miniMenu.MenuItem)[]
     ): Sprite {
         _init();
 
         const m = new MenuSprite();
         // FIXME: slice here?
-        m.setMenuItems(items);
+
+        // Convert strings to MenuItems if needed
+        let menuItems: miniMenu.MenuItem[] = [];
+        for (let item of items) {
+            if (typeof item === "string") {
+                menuItems.push(miniMenu.createMenuItem(item));
+            } else {
+                menuItems.push(item);
+            }
+        }
+
+        m.setMenuItems(menuItems);
         m.setButtonEventsEnabled(true);
 
         m.x = 80;
         m.y = 60;
 
         return m;
+    }
+
+    /**
+    * Creates and returns a menu from an array of menu items and pauses the game whilst the menu is open
+    */
+    //% blockId=createMenuFromArrayAndPauseGame
+    //% block="create menu from $items and pause game"
+    //% blockSetVariable=myMenu
+    //% items.shadow=lists_create_with
+    //% items.defl=mini_menu_create_menu_item
+    //% group="Create"
+    //% weight=99
+
+    export function createMenuFromArrayAndPauseGame(items: (string | miniMenu.MenuItem)[]): miniMenu.MenuSprite {
+        let img = image.screenImage().clone();
+        game.pushScene();
+        scene.setBackgroundImage(img);
+
+        // Convert strings to MenuItems if needed
+        let menuItems: miniMenu.MenuItem[] = [];
+        for (let item of items) {
+            if (typeof item === "string") {
+                menuItems.push(miniMenu.createMenuItem(item));
+            } else {
+                menuItems.push(item);
+            }
+        }
+
+        let myMenu = miniMenu.createMenuFromArray(menuItems);
+        let closed = false;
+        game.onUpdate(() => {
+            if ((!myMenu || !!(myMenu.flags & sprites.Flag.Destroyed)) && !closed) {
+                game.popScene();
+                closed = true;
+            }
+        })
+        return myMenu as miniMenu.MenuSprite;
     }
 
     /**
@@ -446,43 +494,6 @@ namespace miniMenu {
             throw "Mini menu functions can only be called on MenuSprites";
         }
         return menu;
-    }
-
-    /**
-    * Creates and returns a menu from an array of menu items and pauses the game whilst the menu is open
-    */
-    //% blockId=createMenuFromArrayAndPauseGame
-    //% block="create menu from $items and pause game"
-    //% blockSetVariable=myMenu
-    //% items.shadow=lists_create_with
-    //% items.defl=mini_menu_create_menu_item
-    //% group="Create"
-    //% weight=99
-
-    export function createMenuFromArrayAndPauseGame(items: (string | miniMenu.MenuItem)[]): miniMenu.MenuSprite {
-        let img = image.screenImage().clone();
-        game.pushScene();
-        scene.setBackgroundImage(img);
-
-        // Convert strings to MenuItems if needed
-        let menuItems: miniMenu.MenuItem[] = [];
-        for (let item of items) {
-            if (typeof item === "string") {
-                menuItems.push(miniMenu.createMenuItem(item));
-            } else {
-                menuItems.push(item);
-            }
-        }
-
-        let myMenu = miniMenu.createMenuFromArray(menuItems);
-        let closed = false;
-        game.onUpdate(() => {
-            if ((!myMenu || !!(myMenu.flags & sprites.Flag.Destroyed)) && !closed) {
-                game.popScene();
-                closed = true;
-            }
-        })
-        return myMenu as miniMenu.MenuSprite;
     }
 
     /**
