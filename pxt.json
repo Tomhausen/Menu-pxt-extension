@@ -1,6 +1,6 @@
 {
     "name": "arcade-mini-menu",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Add menus to your MakeCode Arcade game",
     "dependencies": {
         "device": "*"
