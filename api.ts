@@ -90,7 +90,7 @@ namespace miniMenu {
         item10?: MenuItem,
         item11?: MenuItem,
         item12?: MenuItem,
-    ): Sprite {
+    ): MenuSprite {
         _init();
 
         const m = new MenuSprite();
@@ -132,7 +132,7 @@ namespace miniMenu {
     //% help=github:arcade-mini-menu/docs/create-menu-from-array
     export function createMenuFromArray(
         items: (string | miniMenu.MenuItem)[]
-    ): Sprite {
+    ): MenuSprite {
         _init();
 
         const m = new MenuSprite();
